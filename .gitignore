@@ -1,0 +1,24 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables (VERY IMPORTANT)
+.env
+
+# Virtual environment
+venv/
+.env/
+
+# Flask / local config
+instance/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE settings
+.vscode/
+.idea/

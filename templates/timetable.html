@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timetable</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script>
+    function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function dragTask(ev) {
+    const block = ev.currentTarget;
+
+    // Prevent dragging school blocks
+    if (block.dataset.type === "school") {
+        ev.preventDefault();
+        return;
+    }
+
+    ev.dataTransfer.effectAllowed = "move";
+    ev.dataTransfer.setData("text/plain", JSON.stringify({
+        id: block.dataset.id,
+        day: block.dataset.day,
+        time: block.dataset.time
+    }));
+}
+function dropTask(ev, newDay, newTime) {
+    ev.preventDefault();
+
+    const data = JSON.parse(ev.dataTransfer.getData("text/plain"));
+
+    fetch("/move_task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            task_id: data.id,
+            old_day: data.day,
+            old_time: data.time,
+            new_day: newDay,
+            new_time: newTime
+        })
+    }).then(res => {
+        if (res.status === 409) {
+            alert("Time conflict! Cannot place task here.");
+            return;
+        }
+        location.reload();
+    });
+}
+        function toggleTask(el) {
+            const details = el.querySelector(".task-details");
+            details.style.display = details.style.display === "none" ? "block" : "none";
+        }
+
+        /* MODAL FUNCTIONS */
+        function openModal() {
+            document.getElementById("taskModal").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("blurWrapper").classList.add("blur");
+        }
+        function closeModal() {
+            document.getElementById("taskModal").style.display = "none";
+            document.getElementById("editTaskModal").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("blurWrapper").classList.remove("blur");
+        }
+
+        function openEditModal(task) {
+            document.getElementById('editTaskId').value = task.id;
+            document.getElementById('editTaskName').value = task.task;
+            document.getElementById('editTaskType').value = task.type;
+            document.getElementById('editTaskDuration').value = task.duration;
+            document.getElementById('editTaskDueDate').value = task.due_date || "";
+            document.getElementById('deleteTaskId').value = task.id;
+
+            document.getElementById('editTaskModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('blurWrapper').classList.add('blur');
+        }
+
+        function openEditTaskModalFromButton(btn) {
+            const task = {
+                id: btn.dataset.id,
+                task: btn.dataset.task,
+                type: btn.dataset.type,
+                duration: btn.dataset.duration,
+                due_date: btn.dataset.due
+            };
+            openEditModal(task);
+        }
+function toggleFields() {
+    const type = document.getElementById("taskType").value;
+    const duration = document.querySelector("#taskModal select[name='duration']");
+    const due = document.querySelector("#taskModal input[name='due_date']");
+
+    if (type === "school") {
+        duration.style.display = "none";
+        due.style.display = "none";
+
+        duration.required = false;
+        due.required = false;
+
+        duration.value = "";
+        due.value = "";
+    } else {
+        duration.style.display = "block";
+        due.style.display = "block";
+
+        duration.required = true;
+        due.required = true;
+
+        if (type === "test") {
+            due.placeholder = "Test Date";
+        } else if (type === "activity") {
+            due.placeholder = "Date";
+        } else {
+            due.placeholder = "Due Date";
+        }
+    }
+}
+function toggleEditFields() {
+    const type = document.getElementById("editTaskType").value;
+    const duration = document.getElementById("editTaskDuration");
+    const due = document.getElementById("editTaskDueDate");
+
+    if (type === "school") {
+        duration.style.display = "none";
+        due.style.display = "none";
+
+        duration.required = false;
+        due.required = false;
+
+    } else {
+        duration.style.display = "block";
+        due.style.display = "block";
+
+        duration.required = true;
+        due.required = true;
+
+        if (type === "test") {
+            due.placeholder = "Test Date";
+        } else if (type === "activity") {
+            due.placeholder = "Date";
+        } else {
+            due.placeholder = "Due Date";
+        }
+    }
+}
+
+setTimeout(() => {
+    const alerts = document.querySelectorAll(".flash-message");
+    alerts.forEach(el => {
+        el.style.transition = "opacity 0.5s ease";
+        el.style.opacity = "0";
+        setTimeout(() => el.remove(), 500);
+    });
+}, 3000);
+    </script>
+</head>
+
+<body>
+
+   {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div style="
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        text-align: center;
+    ">
+      {% for message in messages %}
+        <div class="flash-message" style="
+  background: linear-gradient(135deg, #4f8cff, #6fa8ff);
+  color: white;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 250px;
+">
+  {{ message }}
+</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+    <!-- Everything that should blur goes inside this -->
+    <div id="blurWrapper" class="container wide">
+        <div id="mainContent">
+
+            <h1 style="text-align:center;">{{ username }}'s Weekly Timetable</h1>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+        
+            {% endif %}
+            {% endwith %}
+
+            <!-- Unscheduled Tasks -->
+            {% set unscheduled = tasks | selectattr("scheduled", "equalto", false) | list %}
+            {% if unscheduled|length > 0 %}
+            <h2>Your Tasks</h2>
+            <div>
+                {% for task in unscheduled %}
+                <div class="task-card">
+                    <b>{{ task['task'] }}</b><br>
+                    Type: {{ task['type'] }} <br>
+                    Time Commitment: {{ task['duration'] }} minutes <br>
+                    {% if task['type'] == 'test' %}
+    Test Date: {{ task.get('due_date', '') }}
+{% elif task['type'] == 'activity' %}
+    Date: {{ task.get('date', task.get('due_date', '')) }}
+{% else %}
+    Due Date: {{ task['due_date'] }}
+{% endif %}
+                    <div style="margin-top:8px;">
+                        <button class="edit-btn"
+                            data-id="{{ task['id'] }}"
+                            data-task="{{ task['task']|escape }}"
+                            data-type="{{ task['type']|escape }}"
+                            data-duration="{{ task['duration'] }}"
+                            data-due="{{ task.get('due_date', task.get('test_date', '')) }}"
+                            onclick="openEditTaskModalFromButton(this)">
+                            Edit Task
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div style="text-align:center; margin-bottom:25px;">
+                <button onclick="openModal()">Add Task</button>
+                {% if unscheduled|length == 0 %}
+<form method="POST" action="/sync_calendar">
+    <input type="hidden" name="week" value="{{ week_offset }}">
+    <button type="submit" style="
+        background:#4285F4;
+        color:white;
+        padding:10px 16px;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;">
+        📅 Sync Google Calendar
+    </button>
+</form>
+{% endif %}
+                {% if unscheduled|length > 0 %}
+
+                
+                <form action="/generate_schedule" method="POST" style="margin-top:10px;">
+    <input type="hidden" name="week" value="{{ week_offset }}">
+    <button type="submit">Generate Schedule</button>
+</form>
+                {% endif %}
+            </div>
+<div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-bottom:15px;">
+    
+    <a href="{{ url_for('timetable', week=week_offset-1) }}" class="nav-arrow">
+        &#8592;
+    </a>
+
+    <span style="font-weight:600;">
+    {{ days[0].display }} - {{ days[6].display }}
+</span>
+
+    <a href="{{ url_for('timetable', week=week_offset+1) }}" class="nav-arrow">
+        &#8594;
+    </a>
+
+</div>
+               <!-- Schedule Table -->
+            <h2>Schedule</h2>
+            <table>
+                <tr>
+                    <th>Time</th>
+                    {% for d in days %}
+<th>
+    {{ d.name }}<br>
+    <small>{{ d.display }}</small>
+</th>
+{% endfor %}
+                </tr>
+                {% for time in times %}
+                <tr>
+                    <td>{{ time }}</td>
+                    {% for day in days %}
+                    {% set ns = namespace(skip=false, block=None) %}
+                    {% for t in tasks if t.get("scheduled") and t["day"] == day["date"] %}
+                        {% set start = safe_time_index(t["time"]) %}
+                        {% set length = t["duration"] // 15 %}
+                        {% set current = times.index(time) %}
+                        {% if current > start and current < start + length %}{% set ns.skip = true %}{% endif %}
+                        {% if current == start %}{% set ns.block = t %}{% endif %}
+                    {% endfor %}
+                    {% if not ns.skip %}
+                        {% if ns.block %}
+                        <td rowspan="{{ ns.block['duration'] // 15 }}">
+                            <div class="task-block type-{{ ns.block['type']|replace(' ', '-') }}"
+     data-id="{{ ns.block['id'] }}"
+     data-day="{{ ns.block['day'] }}"
+     data-time="{{ ns.block['time'] }}"
+     data-type="{{ ns.block['type'] }}"
+     draggable="{{ 'false' if ns.block['type'] == 'school' else 'true' }}"
+     {% if ns.block['type'] != 'school' %}ondragstart="dragTask(event)"{% endif %}>
+                                <div 
+{% if ns.block['type'] not in ['activity', 'school', 'break'] %}
+    onclick="toggleTask(this)" style="width:100%; cursor:pointer;"
+{% else %}
+    style="width:100%;"
+{% endif %}
+>
+                                    <div class="task-title"><b>{{ ns.block['task'] }}</b></div>
+                                   
+                                        <div class="task-details" style="display:none; font-size:11px; margin-top:4px;">
+
+    {% if ns.block['type'] == 'test' %}
+        {% if ns.block.get('due_date') %}
+            Test: {{ ns.block.get('due_date') }}
+        {% else %}
+            No test date set
+        {% endif %}
+
+    {% elif ns.block.get('subtype') == 'study' %}
+        Study Session
+
+    {% else %}
+        {% if ns.block.get('due_date') %}
+            Due: {{ ns.block.get('due_date') }}
+        {% else %}
+            Test Date: {{ ns.block.get('test_date') }}
+        {% endif %}
+    {% endif %}
+                                        </div>
+</div>
+
+                            <form action="/delete_task" method="POST" class="delete-form">
+    <input type="hidden" name="task_id" value="{{ ns.block['id'] }}">
+    <input type="hidden" name="week" value="{{ week_offset }}">
+    <button class="block-delete">✕</button>
+</form>
+</div>
+                        </td>
+                        
+                        {% else %}
+
+                        
+                        <td 
+  ondrop="dropTask(event, '{{ day.date }}', '{{ time }}')"
+  ondragover="allowDrop(event)">
+</td>
+                        {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div style="text-align:center; margin-top:20px;">
+                <a href="/logout"><button>Logout</button></a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- OVERLAY -->
+    <div id="overlay" class="overlay" onclick="closeModal()"></div>
+
+    <!-- ADD TASK MODAL -->
+    <div id="taskModal" class="modal">
+    <h2 style="text-align:center;">Add Task</h2>
+
+        <form action="/tasks" method="POST">
+            <input type="hidden" name="week" value="{{ week_offset }}">
+            <input type="text" name="task" placeholder="Task name" required>
+
+        <select name="type" id="taskType" onchange="toggleFields()" required>
+            <option value="">Task Type</option>
+            <option value="school work">School Work</option>
+            <option value="activity">Activity</option>
+            <option value="test">Test</option>
+            <option value="school">School</option>
+        </select>
+
+        <select name="duration">
+    <option value="">Time Commitment</option>
+            <option value="15">15 min</option>
+            <option value="30">30 min</option>
+            <option value="45">45 min</option>
+            <option value="60">1 hour</option>
+            <option value="90">1.5 hours</option>
+            <option value="120">2 hours</option>
+        </select>
+
+        <input type="date" name="due_date" placeholder="Due Date">
+
+        <button type="submit">Add Task</button>
+    </form>
+
+    <button onclick="closeModal()">Cancel</button>
+</div>
+    </div>
+
+    <!-- EDIT TASK MODAL -->
+     <div id="editTaskModal" class="modal">
+    <div class="modal-content">
+        <h2 style="text-align:center;">Edit Task</h2>
+
+        <form method="POST" action="/edit_task">
+            <input type="hidden" name="task_id" id="editTaskId">
+
+            <input type="text" name="task" id="editTaskName" placeholder="Task name" required>
+
+            <select name="type" id="editTaskType" onchange="toggleEditFields()" required>
+                <option value="">Task Type</option>
+                <option value="school work">School Work</option>
+                <option value="activity">Activity</option>
+                <option value="test">Test</option>
+            </select>
+
+            <select name="duration" id="editTaskDuration">
+                <option value="">Time Commitment</option>
+                <option value="15">15 min</option>
+                <option value="30">30 min</option>
+                <option value="45">45 min</option>
+                <option value="60">1 hour</option>
+                <option value="90">1.5 hours</option>
+                <option value="120">2 hours</option>
+            </select>
+
+            <input type="date" name="due_date" id="editTaskDueDate">
+
+            <button type="submit" style="margin-top:10px;">Save Changes</button>
+        </form>
+
+        <form method="POST" action="/delete_task" style="margin-top:10px;">
+            <input type="hidden" name="task_id" id="deleteTaskId">
+            <button type="submit">Delete Task</button>
+        </form>
+
+        <button onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+</body>
+</html>

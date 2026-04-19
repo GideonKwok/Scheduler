@@ -1,0 +1,268 @@
+{
+    "gideonkwok905@gmail.com": [
+        {
+            "id": "10820d64-3b4c-478e-a23a-d5543ebfd822",
+            "task": "Excerise",
+            "type": "activity",
+            "due_date": "2026-04-21",
+            "duration": 60,
+            "scheduled": true,
+            "day": "2026-04-22",
+            "time": "4:00 PM",
+            "google_event_id": "kgvi6nhi30tsgqh3o14g0fuprg",
+            "google_synced": true
+        },
+        {
+            "id": "d0455339-eb91-4429-9570-6cbd5340b479",
+            "task": "Excerise",
+            "type": "activity",
+            "due_date": "2026-04-20",
+            "duration": 45,
+            "scheduled": true,
+            "day": "2026-04-20",
+            "time": "4:00 PM",
+            "google_event_id": "t8f23r6vpn38653uc6piqhrsn4",
+            "google_synced": true
+        },
+        {
+            "id": "f65cc1ad-f6b4-4820-8187-564ce5eef992",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-20",
+            "time": "8:00 AM",
+            "google_event_id": "abph6jbgs33u5akne3cfsg5nss",
+            "google_synced": true
+        },
+        {
+            "id": "15eb5ef0-f4b6-4ba6-a2f0-523880c38e4e",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-21",
+            "time": "8:00 AM",
+            "google_event_id": "ug6p31juufar140cfoa21gqvo0",
+            "google_synced": true
+        },
+        {
+            "id": "925bd4b0-535a-497b-8934-b057c83c31a8",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-22",
+            "time": "8:00 AM",
+            "google_event_id": "jlsggvgpak78gg68736n3hp4q8",
+            "google_synced": true
+        },
+        {
+            "id": "6d677041-b3bc-472e-8b2d-240a7f915d38",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-23",
+            "time": "8:00 AM",
+            "google_event_id": "27414274furgrrr1kre8srj6vg",
+            "google_synced": true
+        },
+        {
+            "id": "c5ab88ad-d600-4cff-9cc4-038ace256e90",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-24",
+            "time": "8:00 AM",
+            "google_event_id": "8q2n9e91qlldgqarp88ei5onn0",
+            "google_synced": true
+        },
+        {
+            "id": "f3bc51e5-9318-402f-8b57-9d4e98a0de0a",
+            "task": "Math",
+            "type": "test",
+            "due_date": "2026-04-23",
+            "duration": 120,
+            "scheduled": true
+        },
+        {
+            "id": "8a62d8a3-ff74-43cc-bee2-5a49e31ff15f",
+            "task": "Math Study",
+            "type": "test",
+            "subtype": "study",
+            "duration": 60,
+            "day": "2026-04-20",
+            "time": "4:45 PM",
+            "due_date": "2026-04-23",
+            "scheduled": true,
+            "google_event_id": "25kkmbhf25ftn69ep8v9k2kiks",
+            "google_synced": true
+        },
+        {
+            "id": "dfe27c7a-9678-42be-85df-f7fd630d885f",
+            "task": "Break",
+            "type": "break",
+            "duration": 15,
+            "day": "2026-04-20",
+            "time": "5:45 PM",
+            "scheduled": true,
+            "google_event_id": "eeanjhc6oi4bg0iemb46das9ss",
+            "google_synced": true
+        },
+        {
+            "id": "4c196356-fb2a-46da-a6aa-d39f81120379",
+            "task": "Math Study",
+            "type": "test",
+            "subtype": "study",
+            "duration": 60,
+            "day": "2026-04-20",
+            "time": "6:00 PM",
+            "due_date": "2026-04-23",
+            "scheduled": true,
+            "google_event_id": "5ofrglliihhlbscgm44k8gcmp0",
+            "google_synced": true
+        },
+        {
+            "id": "50116216-4bff-4dc7-947f-5cca801bfd8f",
+            "task": "Break",
+            "type": "break",
+            "duration": 15,
+            "day": "2026-04-20",
+            "time": "7:00 PM",
+            "scheduled": true,
+            "google_event_id": "ej9p0lhjp5io70f2p876hvuqg0",
+            "google_synced": true
+        },
+        {
+            "id": "01202a67-d79d-43f3-ab71-28f03d870ad6",
+            "task": "Pack opening",
+            "type": "activity",
+            "due_date": "2026-08-09",
+            "duration": 30,
+            "scheduled": true,
+            "day": "2026-05-11",
+            "time": "8:00 AM",
+            "google_event_id": "nnlm5j2a0okt26e0elar5ap5mg",
+            "google_synced": true
+        },
+        {
+            "id": "79b854e9-f244-4591-826c-627cf94b3092",
+            "task": "Math",
+            "type": "school work",
+            "due_date": "2026-04-20",
+            "duration": 60,
+            "scheduled": true,
+            "day": "2026-04-25",
+            "time": "8:00 AM",
+            "google_event_id": "uj3ju072oi2nusgfjjmfhve2as",
+            "google_synced": true
+        },
+        {
+            "id": "5481c72f-0dd6-40c3-bff2-2a3d8d5c1a62",
+            "task": "Pack opening",
+            "type": "activity",
+            "due_date": "2026-04-22",
+            "duration": 30,
+            "scheduled": true,
+            "day": "2026-04-26",
+            "time": "8:00 AM",
+            "google_event_id": "mh4tgj9kuehd3l683fv4egkmuo",
+            "google_synced": true
+        },
+        {
+            "id": "e6f95dbd-75a8-483f-b64c-d2b5ceed0b55",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-13",
+            "time": "8:00 AM"
+        },
+        {
+            "id": "37779d99-d2be-4fa3-8062-dcff96abfa28",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-14",
+            "time": "8:00 AM"
+        },
+        {
+            "id": "26f9c970-7fdf-4424-8366-cffbc5343666",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-15",
+            "time": "8:00 AM"
+        },
+        {
+            "id": "02c79a20-8f79-40cf-bc0b-6ca6e5e57943",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-16",
+            "time": "8:00 AM"
+        },
+        {
+            "id": "040d2331-9735-45f0-9832-a7bd48e81af2",
+            "task": "School",
+            "type": "school",
+            "duration": 480,
+            "due_date": "",
+            "scheduled": true,
+            "day": "2026-04-17",
+            "time": "8:00 AM"
+        },
+        {
+            "id": "657294d1-f6d5-43bb-80c7-e16975bd4de1",
+            "task": "Math",
+            "type": "test",
+            "due_date": "2026-04-22",
+            "duration": 60,
+            "scheduled": true
+        },
+        {
+            "id": "3b76336a-3275-430d-b451-a68d0f0375f7",
+            "task": "Math Study",
+            "type": "test",
+            "subtype": "study",
+            "duration": 60,
+            "day": "2026-04-13",
+            "time": "4:00 PM",
+            "due_date": "2026-04-22",
+            "scheduled": true
+        },
+        {
+            "id": "9f361763-9920-41ea-9b3d-08a2d34d1af8",
+            "task": "Break",
+            "type": "break",
+            "duration": 15,
+            "day": "2026-04-13",
+            "time": "5:00 PM",
+            "scheduled": true
+        },
+        {
+            "id": "3953e2da-3b4c-4a9d-a089-f32d2036c2c7",
+            "task": "Science",
+            "type": "school work",
+            "due_date": "2026-04-21",
+            "duration": 60,
+            "scheduled": true,
+            "day": "2026-04-27",
+            "time": "8:00 AM"
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasks</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+<h1>Add Task</h1>
+
+{% if error %}
+<div style="
+    background:#ffe0e0;
+    color:#b00020;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-weight:bold;
+">
+{{ error }}
+</div>
+{% endif %}
+
+<form method="POST">
+
+<input type="hidden" name="original_task" value="{{ task['task'] if task else '' }}">
+
+<input type="text" name="task"
+value="{{ task['task'] if task else '' }}"
+placeholder="Task name" required>
+
+<select name="type" required>
+<option value="">Task Type</option>
+<option value="school work" {% if task and task['type']=="school work" %}selected{% endif %}>School Work</option>
+<option value="activity" {% if task and task['type']=="activity" %}selected{% endif %}>Activity</option>
+</select>
+
+<select name="duration" required>
+
+<option value="">Time Commitment</option>
+
+<option value="15" {% if task and task['duration']==15 %}selected{% endif %}>15 min</option>
+<option value="30" {% if task and task['duration']==30 %}selected{% endif %}>30 min</option>
+<option value="45" {% if task and task['duration']==45 %}selected{% endif %}>45 min</option>
+<option value="60" {% if task and task['duration']==60 %}selected{% endif %}>1 hour</option>
+<option value="90" {% if task and task['duration']==90 %}selected{% endif %}>1.5 hours</option>
+<option value="120" {% if task and task['duration']==120 %}selected{% endif %}>2 hours</option>
+
+</select>
+
+<input type="date" name="due_date"
+value="{{ task['due_date'] if task else '' }}" required>
+
+<button type="submit">
+{% if task %}Update Task{% else %}Add Task{% endif %}
+</button>
+
+</form>
+
+{% if task %}
+
+<form action="/delete_task" method="POST" style="margin-top:15px;">
+
+<input type="hidden" name="task_name" value="{{ task['task'] }}">
+<input type="hidden" name="day" value="{{ task.get('day','') }}">
+<input type="hidden" name="time" value="{{ task.get('time','') }}">
+
+<button style="
+background:#ff4d4d;
+color:white;
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+width:100%;
+">
+Delete Task
+</button>
+
+</form>
+
+{% endif %}
+<a href="/timetable">
+<button>Back to Timetable</button>
+</a>
+
+</div>
+
+</body>
+</html>

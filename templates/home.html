@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome, {{ session['username'] }}!</h1>
+
+    <div class="buttons">
+        <a href="/timetable"><button>📅 Timetable</button></a>
+        <a href="/logout"><button>Logout</button></a>
+    </div>
+</div>
+
+</body>
+</html>

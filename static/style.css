@@ -1,0 +1,299 @@
+/* Page */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main container */
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 420px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    text-align: center;
+}
+
+.container.wide {
+    width: 90%;
+    max-width: 1100px;
+}
+
+/* Inputs */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* Main buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+}
+
+button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+}
+
+/* Small delete button */
+.delete-btn {
+    background: rgba(255,255,255,0.25);
+    color: white;
+    border: none;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+    font-size: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    padding: 0;
+}
+
+.delete-btn:hover {
+    background: #ff4d4d;
+}
+
+/* Task list card */
+.task-card {
+    background: #f6f7ff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    border: 1px solid #e2e4ff;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+th {
+    background: #f3f4ff;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    width: 90px;
+    height: 45px;
+
+    text-align: center;
+    vertical-align: middle;
+
+    position: relative;
+}
+
+td {
+    overflow: hidden;
+}
+
+/* Task block in timetable */
+.task-block {
+    position: absolute;
+
+    top: 6px;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
+
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+
+    border-radius: 10px;
+    padding: 6px 8px;
+
+    font-size: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    text-align: center;
+
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+
+    cursor: grab;
+    
+    
+
+    z-index: 10; /* add this line */
+}
+
+.task-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-block form {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.block-delete{
+    background: rgba(255,255,255,0.25);
+    border: none;
+    color: white;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+    font-size: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    padding: 0;
+    
+}
+
+.block-delete:hover{
+    background: #ff4d4d;
+}
+
+.edit-btn {
+    background: #ffa500;
+    padding: 6px 12px;
+    font-size: 12px;
+    width: auto;
+    border-radius: 6px;
+}
+
+/* Blur ONLY background */
+.blur {
+    filter: blur(8px);
+
+}
+
+/* Ensure modal-content takes full width and allows clicks */
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    position: relative; /* ensures it's above anything inside modal */
+    z-index: 102; /* above overlay and modal */
+}
+
+/* Modal box */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 320px;
+    display: none;
+    z-index: 101; /* higher than overlay */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Overlay covers everything below modal */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    z-index: 100; /* HIGHER than everything else */
+}
+
+.task-block[data-type="school"] {
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+/* Disable interaction with inner text for school blocks (keeps delete button clickable) */
+.task-block[data-type="school"] .task-title,
+.task-block[data-type="school"] .task-details {
+    pointer-events: none;
+}
+
+/* Default fallback */
+.task-block {
+    background: #6c5ce7; /* purple */
+}
+
+/* School (fixed schedule) */
+.task-block.type-school {
+    background: #2d3436; /* dark gray */
+}
+
+/* School work */
+.task-block.type-school-work {
+    background: #0984e3; /* blue */
+}
+
+/* Activities */
+.task-block.type-activity {
+    background: #00b894; /* green */
+}
+
+/* Tests */
+.task-block.type-test {
+    background: #fdcb6e; /* red */
+}
+
+/* Study sessions */
+.task-block.type-study {
+    background: #d63031; /* yellow */
+}
+.nav-arrow {
+    font-size: 20px;
+    text-decoration: none;
+    color: #333;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.nav-arrow:hover {
+    background-color: rgba(0,0,0,0.1);
+    transform: scale(1.1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
