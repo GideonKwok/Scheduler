@@ -21,6 +21,9 @@ client = OpenRouter(api_key=API_KEY)
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 USERS_FILE = "users.json"
 DATA_FILE = "tasks.json"
@@ -36,8 +39,9 @@ google = oauth.register(
     client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
     server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
     client_kwargs={
-    "scope": "openid email profile https://www.googleapis.com/auth/calendar.events"
-}
+        "scope": "openid email profile https://www.googleapis.com/auth/calendar.events",
+        "prompt": "consent"
+    },
 )
 # ---------------- Time Slots ----------------
 times = []
@@ -255,11 +259,14 @@ def login():
 
 @app.route("/login/google")
 def login_google():
-    redirect_uri = url_for("auth_callback", _external=True)
+    redirect_uri = "https://scheduler-xyz.onrender.com/auth/callback"
+
+    print("FINAL REDIRECT:", redirect_uri)
+
     return google.authorize_redirect(
         redirect_uri,
-        access_type="offline",   # 🔥 THIS gives refresh_token
-        prompt="consent"         # 🔥 THIS forces Google to send it
+        access_type="offline",
+        prompt="consent"
     )
 
 @app.route("/auth/callback")
