@@ -871,6 +871,3 @@ def sync_calendar():
 
     flash("Synced successfully!")
     return redirect(url_for("timetable", week=week_offset))
-# ---------------- Run ----------------
-if __name__ == "__main__":
-    app.run(debug=True)
