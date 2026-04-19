@@ -259,7 +259,7 @@ def login():
 
 @app.route("/login/google")
 def login_google():
-    redirect_uri = "https://scheduler-xyz.onrender.com/auth/callback"
+    redirect_uri = "https://scheduler-mnsx.onrender.com/auth/callback"
 
     print("FINAL REDIRECT:", redirect_uri)
 
