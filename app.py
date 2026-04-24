@@ -872,8 +872,3 @@ def sync_calendar():
 
     flash("Synced successfully!")
     return redirect(url_for("timetable", week=week_offset))
-
-@app.route("/auth/callback")
-def test_auth_callback():
-    print("🔥 CALLBACK HIT")
-    return "OK CALLBACK WORKS"
