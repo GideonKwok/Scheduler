@@ -1,4 +1,6 @@
-BY: Gideon Kwok
+                                                     #   **Timetable Website**
+
+Description:
 This is my timetable website. My project is capable of creating tasks and generating tasks to help manage schedule. 
 The main motivation was that I noticed many of my peers, including myself struggle with managing our schedule, so I decided to create a timetable website to help.
 The website is simple to access: https://scheduler-mnsx.onrender.com/login, this is the link.
