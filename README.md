@@ -12,7 +12,7 @@ You can acess the website here: https://scheduler-mnsx.onrender.com/
 2. Login using either a regular account or email so you can sync to Google Calendar
 3. Click "Add Tasks" to create tasks
 4. Select different task types based off their function
-5. Click the Gernerate button to automaically place tasks into the timetable
+5. Click the Generate button to automaically place tasks into the timetable
 6. Additionally, click the Sync button to connect to Google Calender 
 > Note: "School" task type will generate the typical 8 hour school blocks Monday - Friday
 
